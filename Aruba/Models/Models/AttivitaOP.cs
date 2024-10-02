@@ -9,7 +9,6 @@ namespace Domain.Models
 {
     public class AttivitaOP
     {
-        public int Id { get; set; }
         public string Nome { get; set; }    
         public string Descrizione { get; set; }
         public bool IsComplete { get; set; }
@@ -18,6 +17,6 @@ namespace Domain.Models
         public AttivitaOP() { }
 
         public AttivitaOP(Attivita attivita) =>
-            (Id, Nome, Descrizione, IsComplete, Priority) = (attivita.Id, attivita.Nome, attivita.Descrizione, attivita.IsComplete, attivita.Priority);
+            (Nome, Descrizione, IsComplete, Priority) = (attivita.Nome, attivita.Descrizione, attivita.IsComplete, attivita.Priority);
     }
 }
