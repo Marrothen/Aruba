@@ -9,6 +9,7 @@ namespace Domain.Models
 {
     public class AttivitaOP
     {
+        public int Id { get; set; }
         public string Nome { get; set; }    
         public string Descrizione { get; set; }
         public bool IsComplete { get; set; }

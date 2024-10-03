@@ -1,19 +1,19 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Traccia2.Controllers
+namespace Traccia3.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    public class AttivitaController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        private readonly ILogger<WeatherForecastController> _logger;
+        private readonly ILogger<AttivitaController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public AttivitaController(ILogger<AttivitaController> logger)
         {
             _logger = logger;
         }

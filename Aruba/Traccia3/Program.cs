@@ -1,8 +1,3 @@
-using Domain.IRepository;
-using Domain.Models.DB;
-using Domain.Repository;
-using Microsoft.EntityFrameworkCore;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -11,10 +6,6 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<ArubaDB>(options =>
-        options.UseInMemoryDatabase("ArubaDB"), ServiceLifetime.Singleton);
-
-builder.Services.AddTransient<IRepository<Attivita>,AttivitaRepository>();
 
 var app = builder.Build();
 
