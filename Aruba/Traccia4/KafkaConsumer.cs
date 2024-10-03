@@ -17,7 +17,8 @@ namespace Traccia4
             {
                 BootstrapServers = "localhost:9092",
                 GroupId = "test-consumer-group",
-                AutoOffsetReset = AutoOffsetReset.Earliest
+                AutoOffsetReset = AutoOffsetReset.Earliest,
+                EnableAutoCommit = false
             };
 
             using var consumer = new ConsumerBuilder<string, string>(config).Build();
@@ -27,6 +28,7 @@ namespace Traccia4
             while (!cancellationToken.IsCancellationRequested)
             {
                 var cr = consumer.Consume(cancellationToken);
+                consumer.Commit(cr);
                 Console.WriteLine($"Consumed message '{cr.Value}' from '{cr.TopicPartitionOffset}'.");
             }
 
