@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Traccia3</name>
+    </assembly>
+    <members>
+        <member name="M:Traccia3.Controllers.AttivitaController.GetAllItem">
+            <summary>
+            Restituisce l'attività in base all'id
+            </summary>
+        </member>
+    </members>
+</doc>

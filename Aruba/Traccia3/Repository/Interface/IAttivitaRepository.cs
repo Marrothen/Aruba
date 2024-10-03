@@ -2,12 +2,12 @@
 
 namespace Traccia3.Repository.Interface
 {
-    public interface IRepository
+    public interface IAttivitaRepository
     {
-        Task<IEnumerable<Attivita>> getAll();
-        Task<Attivita> GetById(int id);
+        Task<List<Attivita>> getAll();
+        Task<Attivita> GetById(string id);
         Task<Attivita> Add(Attivita item);
         Task Update(Attivita item);
-        Task Delete(int id);
+        Task Delete(string id);
     }
 }
