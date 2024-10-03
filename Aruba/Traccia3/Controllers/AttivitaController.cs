@@ -20,22 +20,28 @@ namespace Traccia3.Controllers
         }
 
 
+
         /// <summary>
-        /// Restituisce l'attività in base all'id
+        /// Restituisce tutte le attivita
         /// </summary>
-        [HttpGet("{id}")]
+        /// <remarks>
+        /// restituisce una lista di tutte le attività.
+        /// </remarks>
+        [Route("getAllItem")]
+        [HttpGet]
         [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(Attivita), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-
-        [Route("getAllItem")]
-        [HttpGet]
         public async Task<IActionResult> GetAllItem()
         {
             return Ok(await _attivitaRepository.getAll());
         }
 
+        /// <summary>
+        /// Restituisce l'attività in base all'id
+        /// </summary>
         [Route("getItemById/{id}")]
         [HttpGet]
         public async Task<IActionResult> GetItemById(string id)

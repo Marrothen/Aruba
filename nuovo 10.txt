@@ -1,0 +1,136 @@
+openapi: 3.0.0
+info:
+  title: API delle Attività
+  description: API per gestire le attività
+  version: 1.0.0
+paths:
+  /attivitaitems:
+    get:
+      summary: Ottieni tutte le attività
+      description: Restituisce una lista di tutti gli elementi di attività nel database.
+      responses:
+        '200':
+          description: Una lista di attività
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Attivita'
+  
+  /attivitaitems/complete:
+    get:
+      summary: Ottieni le attività completate
+      description: Restituisce tutte le attività completate.
+      responses:
+        '200':
+          description: Una lista di attività completate
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Attivita'
+
+  /attivitaitem/{id}:
+    get:
+      summary: Ottieni un'attività per ID
+      description: Restituisce l'attività con l'ID specificato.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID dell'attività da recuperare
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: L'attività trovata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attivita'
+        '404':
+          description: Attività non trovata
+          
+    put:
+      summary: Aggiorna un'attività
+      description: Aggiorna l'attività esistente con l'ID specificato.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID dell'attività da aggiornare
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Attivita'
+      responses:
+        '204':
+          description: Attività aggiornata con successo
+        '404':
+          description: Attività non trovata
+          
+    delete:
+      summary: Elimina un'attività per ID
+      description: Elimina l'attività con l'ID specificato.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID dell'attività da eliminare
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Attività eliminata con successo
+        '404':
+          description: Attività non trovata
+
+  /attivitaitem:
+    post:
+      summary: Crea una nuova attività
+      description: Crea una nuova attività nel database.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Attivita'
+      responses:
+        '201':
+          description: Attività creata con successo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attivita'
+
+
+components:
+  schemas:
+    Attivita:
+      type: object
+      properties:
+        Id:
+          type: integer
+          description: L'ID dell'attività
+        Nome:
+          type: string
+          description: Il nome dell'attività
+        Descrizione:
+          type: string
+          description: Una descrizione dell'attività
+        IsComplete:
+          type: boolean
+          description: Indica se l'attività è completata
+        Priority:
+          type: string
+          description: La priorità dell'attività
+        CreatedDate:
+          type: string
+          format: date-time
+          description: La data di creazione dell'attività
