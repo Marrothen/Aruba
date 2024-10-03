@@ -1,4 +1,5 @@
 ﻿using Domain.Models.DB;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Traccia1.API
@@ -13,7 +14,7 @@ namespace Traccia1.API
                     .Produces<List<Attivita>>(StatusCodes.Status200OK);
 
             app.MapGet("/attivitaitems/complete", async (ArubaDB db) =>
-                await db.Attivita.Where(t => t.IsComplete).ToListAsync())
+               Results.Ok(await db.Attivita.Where(t => t.IsComplete).ToListAsync()))
                     .WithDescription("Restituisce tutte le attività completate")
                     .Produces<List<Attivita>>(StatusCodes.Status200OK);
 
@@ -34,7 +35,7 @@ namespace Traccia1.API
                 return Results.Ok(item);
             }).WithDescription("Crea una nuova attività").Produces<Attivita>(StatusCodes.Status201Created);
 
-            app.MapPut("/attivitaitem/{id}", async (int id, Attivita item, ArubaDB db) =>
+            app.MapPut("/attivitaitem/{id}", async (int id,[FromBody] Attivita item, ArubaDB db) =>
             {
                 var tempItem = await db.Attivita.FindAsync(id);
 

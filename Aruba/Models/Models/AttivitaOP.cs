@@ -14,10 +14,5 @@ namespace Domain.Models
         public string Descrizione { get; set; }
         public bool IsComplete { get; set; }
         public string Priority { get; set; }
-
-        public AttivitaOP() { }
-
-        public AttivitaOP(Attivita attivita) =>
-            (Nome, Descrizione, IsComplete, Priority) = (attivita.Nome, attivita.Descrizione, attivita.IsComplete, attivita.Priority);
     }
 }

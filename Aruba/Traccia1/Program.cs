@@ -9,5 +9,5 @@ var app = builder.Build();
 
 ProgramConfig.setMiddlewareSwagger(app);
 AttivitaAPI.setAttivitaAPI(app);
-
+//AttivitaAPI2.setEndPoint(app);
 app.Run();
