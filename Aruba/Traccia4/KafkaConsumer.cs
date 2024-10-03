@@ -29,7 +29,7 @@ namespace Traccia4
             {
                 var cr = consumer.Consume(cancellationToken);
                 consumer.Commit(cr);
-                Console.WriteLine($"Consumed message '{cr.Value}' from '{cr.TopicPartitionOffset}'.");
+                Console.WriteLine($"messaggio consumato '{cr.Value}' da '{cr.TopicPartitionOffset}'.");
             }
 
         }
