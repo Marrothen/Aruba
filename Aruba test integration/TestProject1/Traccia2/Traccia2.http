@@ -1,0 +1,6 @@
+@Traccia2_HostAddress = http://localhost:5208
+
+GET {{Traccia2_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
