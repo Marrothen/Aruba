@@ -1,0 +1,6 @@
+@Traccia5_HostAddress = http://localhost:5019
+
+GET {{Traccia5_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

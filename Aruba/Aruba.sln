@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Models\Domain.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Traccia2", "Traccia2\Traccia2.csproj", "{CE8AFFBA-C125-4060-B67E-17D1817BBB8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Traccia3", "Traccia3\Traccia3.csproj", "{F0A5DA13-210F-4D98-993A-9DACC75FA338}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Traccia3", "Traccia3\Traccia3.csproj", "{F0A5DA13-210F-4D98-993A-9DACC75FA338}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Traccia4", "Traccia4\Traccia4.csproj", "{F37A75E3-C5B1-4AC7-A121-574F4F6E3C75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Traccia4", "Traccia4\Traccia4.csproj", "{F37A75E3-C5B1-4AC7-A121-574F4F6E3C75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Traccia5", "Traccia5\Traccia5.csproj", "{48B27A96-A525-40F1-A536-7CA3140EA6F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{F37A75E3-C5B1-4AC7-A121-574F4F6E3C75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F37A75E3-C5B1-4AC7-A121-574F4F6E3C75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F37A75E3-C5B1-4AC7-A121-574F4F6E3C75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48B27A96-A525-40F1-A536-7CA3140EA6F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48B27A96-A525-40F1-A536-7CA3140EA6F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48B27A96-A525-40F1-A536-7CA3140EA6F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48B27A96-A525-40F1-A536-7CA3140EA6F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
