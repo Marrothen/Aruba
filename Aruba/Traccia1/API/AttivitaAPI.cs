@@ -35,7 +35,7 @@ namespace Traccia1.API
                 return Results.Ok(item);
             }).WithDescription("Crea una nuova attività").Produces<Attivita>(StatusCodes.Status201Created);
 
-            app.MapPut("/attivitaitem/{id}", async (int id,[FromBody] Attivita item, ArubaDB db) =>
+            app.MapPut("/attivitaitem/{id}", async (int id, Attivita item, ArubaDB db) =>
             {
                 var tempItem = await db.Attivita.FindAsync(id);
 
