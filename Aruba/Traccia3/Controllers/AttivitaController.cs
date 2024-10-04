@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
-using System.Collections.Generic;
 using System.Net.Mime;
 using Traccia3.Models.DB;
 using Traccia3.Repository.Interface;
@@ -36,7 +35,15 @@ namespace Traccia3.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAllItem()
         {
-            return Ok(await _attivitaRepository.getAll());
+            try
+            {
+                return Ok(await _attivitaRepository.getAll());
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Errore generico");
+            }
         }
 
         /// <summary>
@@ -46,7 +53,8 @@ namespace Traccia3.Controllers
         [HttpGet]
         public async Task<IActionResult> GetItemById(string id)
         {
-            try {
+            try
+            {
                 if (!ObjectId.TryParse(id, out ObjectId objectId))
                 {
                     throw new FormatException($"L'ID '{id}' non è un formato valido per ObjectId.");
@@ -70,15 +78,24 @@ namespace Traccia3.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateItem([FromBody] Attivita item)
         {
-            var newItem = new Attivita
+            try
             {
-                Nome = item.Nome,
-                Descrizione = item.Descrizione,
-                IsComplete = item.IsComplete,
-                Priority = item.Priority,
-                CreatedDate = DateTime.Now.ToString("yyyy-MM-dd")
-            };
-            return Ok(await _attivitaRepository.Add(newItem));
+
+
+                var newItem = new Attivita
+                {
+                    Nome = item.Nome,
+                    Descrizione = item.Descrizione,
+                    IsComplete = item.IsComplete,
+                    Priority = item.Priority,
+                    CreatedDate = DateTime.Now.ToString("yyyy-MM-dd")
+                };
+                return Ok(await _attivitaRepository.Add(newItem));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Errore generico");
+            }
         }
 
         [Route("updateItem")]
@@ -103,7 +120,8 @@ namespace Traccia3.Controllers
                 await _attivitaRepository.Update(tempItem);
                 return NoContent();
             }
-            catch (FormatException ex) {
+            catch (FormatException ex)
+            {
                 return BadRequest(ex.Message);
             }
             catch (KeyNotFoundException ex)
@@ -119,7 +137,7 @@ namespace Traccia3.Controllers
             {
                 if (!ObjectId.TryParse(id, out ObjectId objectId))
                 {
-                    throw new FormatException($"L'ID '{id}' non è un formato valido per ObjectId."); 
+                    throw new FormatException($"L'ID '{id}' non è un formato valido per ObjectId.");
                 }
                 await _attivitaRepository.Delete(id);
             }
