@@ -6,7 +6,8 @@ namespace Traccia1.API
 {
     public static class AttivitaAPI
     {
-        public static void setAttivitaAPI(WebApplication app) {
+        public static void setAttivitaAPI(WebApplication app)
+        {
             app.MapGet("/attivitaitems", async (ArubaDB db) =>
                 Results.Ok(await db.Attivita.ToListAsync()))
                     .WithDescription("Restituisce una lista di tutti gli elementi di attività nel database.")
@@ -16,6 +17,7 @@ namespace Traccia1.API
             app.MapGet("/attivitaitems/complete", async (ArubaDB db) =>
                Results.Ok(await db.Attivita.Where(t => t.IsComplete).ToListAsync()))
                     .WithDescription("Restituisce tutte le attività completate")
+                    .WithSummary("Ottieni tutte le attività completate")
                     .Produces<List<Attivita>>(StatusCodes.Status200OK);
 
             app.MapGet("/attivitaitem/{id}", async (int id, ArubaDB db) =>
@@ -24,33 +26,44 @@ namespace Traccia1.API
                             ? Results.Ok(item)
                             : Results.NotFound($"Elemento con id:{id} non trovato"))
                       .WithDescription("Restituisce l'attività in base all'id")
+                      .WithSummary("Restituisce l'attività in base all'id")
                       .Produces<Attivita>(StatusCodes.Status200OK)
                       .Produces<string>(StatusCodes.Status404NotFound);
 
             app.MapPost("/attivitaitem", async (Attivita item, ArubaDB db) =>
             {
+                if (string.IsNullOrEmpty(item.Nome)) return Results.BadRequest($"Nome null non ammissibile");
+                if (string.IsNullOrEmpty(item.Descrizione)) return Results.BadRequest($"Descrizione null non ammissibile");
+                if (string.IsNullOrEmpty(item.Priority)) return Results.BadRequest($"Priority null non ammissibile");
+                item.CreatedDate = DateTime.Now.ToString("yyyy-MM-dd");
                 db.Attivita.Add(item);
                 await db.SaveChangesAsync();
-
                 return Results.Ok(item);
-            }).WithDescription("Crea una nuova attività").Produces<Attivita>(StatusCodes.Status201Created);
+            }).WithDescription("Crea una nuova attività").WithSummary("Crea una nuova attività").Produces<string>(StatusCodes.Status400BadRequest).Produces<Attivita>(StatusCodes.Status201Created);
 
             app.MapPut("/attivitaitem/{id}", async (int id, Attivita item, ArubaDB db) =>
             {
                 var tempItem = await db.Attivita.FindAsync(id);
 
                 if (tempItem is null) return Results.NotFound($"Elemento con id:{id} non trovata");
+                if(string.IsNullOrEmpty(tempItem.Nome)) return Results.BadRequest($"Nome null non ammissibile");
+                if(string.IsNullOrEmpty(tempItem.Descrizione)) return Results.BadRequest($"Descrizione null non ammissibile");
 
                 tempItem.Nome = item.Nome;
                 tempItem.IsComplete = item.IsComplete;
-                tempItem.Descrizione= item.Descrizione;
+                tempItem.Descrizione = item.Descrizione;
                 await db.SaveChangesAsync();
 
-                return Results.Ok(tempItem);
-            }).WithDescription("Aggiorna l'attività").Produces<Attivita>(StatusCodes.Status204NoContent).Produces<string>(StatusCodes.Status404NotFound);
+                return Results.NoContent();
+            }).WithDescription("Aggiorna l'attività in base all'id")
+             .WithSummary("Restituisce l'attività in base all'id")
+             .Produces(StatusCodes.Status204NoContent)
+             .Produces<string>(StatusCodes.Status404NotFound)
+             .Produces<string>(StatusCodes.Status400BadRequest);
 
             app.MapDelete("/attivitaitem/{id}", async (int id, ArubaDB db) =>
             {
+
                 if (await db.Attivita.FindAsync(id) is Attivita item)
                 {
                     db.Attivita.Remove(item);
@@ -59,7 +72,7 @@ namespace Traccia1.API
                 }
 
                 return Results.NotFound($"Elemento non trovato con id {id}");
-            }).WithDescription("Elimina l'attività in base all'id").Produces(StatusCodes.Status204NoContent).Produces<string>(StatusCodes.Status404NotFound);
+            }).WithDescription("Elimina l'attività in base all'id").WithSummary("Elimina l'attività in base all'id").Produces(StatusCodes.Status204NoContent).Produces<string>(StatusCodes.Status404NotFound);
         }
     }
 }

@@ -42,7 +42,7 @@ namespace Traccia1.API
             {
                 Nome = item.Nome,
                 Descrizione = item.Descrizione,
-                IsComplete = item.IsComplete,
+                IsComplete = item.IsComplete!=null?(bool)item.IsComplete:false,
                 Priority = item.Priority,
                 CreatedDate = DateTime.Now.ToString("yyyy-MM-dd")
             };
@@ -60,7 +60,7 @@ namespace Traccia1.API
 
             tempItem.Nome = item.Nome;
             tempItem.Descrizione = item.Descrizione;
-            tempItem.IsComplete = item.IsComplete;
+            tempItem.IsComplete = item.IsComplete != null ? (bool)item.IsComplete : false;
             tempItem.Priority = item.Priority;
 
             await db.SaveChangesAsync();

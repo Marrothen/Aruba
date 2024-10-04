@@ -42,24 +42,24 @@ namespace Traccia2.Controllers
             {
                 Nome = item.Nome,
                 Descrizione = item.Descrizione,
-                IsComplete = item.IsComplete,
+                IsComplete = item.IsComplete != null ? (bool)item.IsComplete : false,
                 Priority = item.Priority,
                 CreatedDate = DateTime.Now.ToString("yyyy-MM-dd")
             };
             return Ok(await _attivitaRepository.Add(newItem));
         }
 
-        [Route("updateItem")]
+        [Route("updateItem/{id}")]
         [HttpPut]
-        public async Task<IActionResult> UpdateItem([FromBody] AttivitaOP item)
+        public async Task<IActionResult> UpdateItem([FromRoute]int id,[FromBody] AttivitaOP item)
         {
-            var tempItem = await _attivitaRepository.GetById(item.Id);
+            var tempItem = await _attivitaRepository.GetById(id);
 
-            if (tempItem is null) return NotFound($"Elemento con Id:{item.Id} non trovato");
+            if (tempItem is null) return NotFound($"Elemento con Id:{id} non trovato");
 
             tempItem.Nome = item.Nome;
             tempItem.Descrizione = item.Descrizione;
-            tempItem.IsComplete = item.IsComplete;
+            tempItem.IsComplete = item.IsComplete != null ? (bool)item.IsComplete : false;
             tempItem.Priority = item.Priority;
 
             await _attivitaRepository.Update(tempItem);
@@ -78,7 +78,6 @@ namespace Traccia2.Controllers
             }
             catch (Exception ex)
             {
-                //Evenutali log
                 return StatusCode(500,"Errore generico");
             }
 

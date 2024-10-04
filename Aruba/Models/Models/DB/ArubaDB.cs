@@ -50,5 +50,19 @@ namespace Domain.Models.DB
             });
                 SaveChanges(); 
         }
+
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<Attivita>()
+        //        .HasKey(a => a.Id); 
+
+        //    modelBuilder.Entity<Attivita>()
+        //        .Property(a => a.Id)
+        //        .ValueGeneratedOnAdd(); 
+
+        //    modelBuilder.Entity<Attivita>()
+        //        .Property(a => a.Nome)
+        //        .IsRequired();
+        //}
     }
 }
