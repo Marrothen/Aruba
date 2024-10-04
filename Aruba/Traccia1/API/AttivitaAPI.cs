@@ -46,8 +46,8 @@ namespace Traccia1.API
                 var tempItem = await db.Attivita.FindAsync(id);
 
                 if (tempItem is null) return Results.NotFound($"Elemento con id:{id} non trovata");
-                if(string.IsNullOrEmpty(tempItem.Nome)) return Results.BadRequest($"Nome null non ammissibile");
-                if(string.IsNullOrEmpty(tempItem.Descrizione)) return Results.BadRequest($"Descrizione null non ammissibile");
+                if(string.IsNullOrEmpty(item.Nome)) return Results.BadRequest($"Nome null non ammissibile");
+                if(string.IsNullOrEmpty(item.Descrizione)) return Results.BadRequest($"Descrizione null non ammissibile");
 
                 tempItem.Nome = item.Nome;
                 tempItem.IsComplete = item.IsComplete;
