@@ -23,6 +23,7 @@ namespace Traccia4
         {
             using var producer = new ProducerBuilder<Null, string>(_config).Build();
             await producer.ProduceAsync(_topic, new Message<Null, string> { Value = message });
+
         }
 
     }

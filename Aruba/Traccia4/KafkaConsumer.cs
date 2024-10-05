@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Traccia4
 {
-    public class KafkaConsumer 
+    public class KafkaConsumer
     {
 
         public async Task Start(CancellationToken cancellationToken)
@@ -18,24 +18,54 @@ namespace Traccia4
                 BootstrapServers = "localhost:9092",
                 GroupId = "test-consumer-group",
                 AutoOffsetReset = AutoOffsetReset.Earliest,
-                EnableAutoCommit = false
+                EnableAutoCommit = false,
+                EnableAutoOffsetStore = false
             };
 
-            using var consumer = new ConsumerBuilder<string, string>(config).Build();
+            using var consumer = new ConsumerBuilder<string, string>(config)
+            .SetPartitionsAssignedHandler((c, partitions) =>
+                {
+                    foreach (var partition in partitions)
+                    {
+                        Console.WriteLine($" Partizione assegnata {partition}");
+                    }
+                })
+            .SetPartitionsRevokedHandler((c, partitions) =>
+            {
+
+                foreach (var partition in partitions)
+                {
+                    Console.WriteLine($" Partizione revocata {partition.Offset}");
+                }
+
+                c.Commit();
+
+            }).Build();
 
             consumer.Subscribe("ArubaTopic");
 
             while (!cancellationToken.IsCancellationRequested)
             {
                 var cr = consumer.Consume(cancellationToken);
-                consumer.Commit(cr);
-                Console.WriteLine($"messaggio consumato '{cr.Value}' da '{cr.TopicPartitionOffset}'.");
+
+                Console.WriteLine($"messaggio consumato ma non committato '{cr.Value}' da '{cr.TopicPartitionOffset}' e offset: '{cr.Offset}'.");
+
+                consumer.StoreOffset(cr);
+
+                if (cr.Offset % 10 == 0)
+                {
+                    consumer.Commit();
+                    Console.WriteLine($"Commit effettuato fino all'offset: {cr.Offset}.");
+                }
+
             }
+            consumer.Close();
 
         }
 
 
-        public Task StartBackgroundService(CancellationToken stoppingToken) {
+        public Task StartBackgroundService(CancellationToken stoppingToken)
+        {
             return Task.Run(() =>
             {
                 Start(stoppingToken);
