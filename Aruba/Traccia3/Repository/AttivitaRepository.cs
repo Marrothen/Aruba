@@ -35,21 +35,12 @@ namespace Traccia3.Repository
         public async Task<Attivita> GetById(string id)
         {
             var attivita = await _context.Attivita.Find(a => a.Id == id).FirstOrDefaultAsync(); 
-
-            if (attivita == null)
-            {
-                throw new KeyNotFoundException($"Elemento con id: {id} non trovato");
-            }
             return attivita; 
         }
 
         public async Task Update(Attivita item)
         {
             var updateResult = await _context.Attivita.ReplaceOneAsync(a => a.Id == item.Id, item); 
-            if (updateResult.ModifiedCount == 0)
-            {
-                throw new KeyNotFoundException($"Elemento con id: {item.Id} non trovato");
-            }
         }
     }
 }

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using System.Net.Mime;
 using Traccia3.Models.DB;
+using Traccia3.Models.RequestModel;
 using Traccia3.Repository.Interface;
 
 namespace Traccia3.Controllers
@@ -67,16 +68,11 @@ namespace Traccia3.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            catch (KeyNotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-
         }
 
         [Route("createItem")]
         [HttpPost]
-        public async Task<IActionResult> CreateItem([FromBody] Attivita item)
+        public async Task<IActionResult> CreateItem([FromBody] AttivitaCreateUpdate item)
         {
             try
             {
@@ -98,19 +94,19 @@ namespace Traccia3.Controllers
             }
         }
 
-        [Route("updateItem")]
+        [Route("updateItem/{id}")]
         [HttpPut]
-        public async Task<IActionResult> UpdateItem([FromBody] Attivita item)
+        public async Task<IActionResult> UpdateItem([FromRoute] string id,[FromBody] AttivitaCreateUpdate item)
         {
             try
             {
-                if (!ObjectId.TryParse(item.Id, out ObjectId objectId))
+                if (!ObjectId.TryParse(id, out ObjectId objectId))
                 {
-                    throw new FormatException($"L'ID '{item.Id}' non è un formato valido per ObjectId.");
+                    throw new FormatException($"L'ID '{id}' non è un formato valido per ObjectId.");
                 }
-                var tempItem = await _attivitaRepository.GetById(item.Id);
+                var tempItem = await _attivitaRepository.GetById(id);
 
-                if (tempItem is null) return NotFound($"Elemento con Id:{item.Id} non trovato");
+                if (tempItem is null) return NotFound($"Elemento con Id:{id} non trovato");
 
                 tempItem.Nome = item.Nome;
                 tempItem.Descrizione = item.Descrizione;
@@ -123,10 +119,6 @@ namespace Traccia3.Controllers
             catch (FormatException ex)
             {
                 return BadRequest(ex.Message);
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return NotFound($"L'elemento con Id:{item.Id} non esiste");
             }
         }
         [Route("deleteItem")]
@@ -144,6 +136,10 @@ namespace Traccia3.Controllers
             catch (KeyNotFoundException ex)
             {
                 return NotFound($"L'elemento con Id:{id} non esiste");
+            }
+            catch (FormatException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
