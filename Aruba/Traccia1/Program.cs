@@ -6,8 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCustomServices();
 
 var app = builder.Build();
-
-ProgramConfig.setMiddlewareSwagger(app);
-AttivitaAPI.setAttivitaAPI(app);
-//AttivitaAPI2.setEndPoint(app);
+app.setMiddlewareSwagger();
+app.setAttivitaAPI();
+//app.setEndPoint();
 app.Run();

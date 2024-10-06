@@ -1,12 +1,13 @@
 ﻿using Domain.Models.DB;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Traccia1.API
 {
     public static class AttivitaAPI2
     {
-        public static void setEndPoint(WebApplication app)
+        public static void setEndPoint(this WebApplication app)
         {
             var mapGroup = app.MapGroup("/attivitaitems");
 
@@ -28,7 +29,7 @@ namespace Traccia1.API
             return TypedResults.Ok(await db.Attivita.Where(t => t.IsComplete).ToListAsync());
         }
 
-        private static async Task<IResult> getItemById(int id, ArubaDB db)
+        private static async Task<Results<Ok<Attivita>,NotFound<string>>> getItemById(int id, ArubaDB db)
         {
             return await db.Attivita.FindAsync(id)
                     is Attivita item
@@ -52,7 +53,7 @@ namespace Traccia1.API
             return TypedResults.Ok(newItem);
         }
 
-        private static async Task<IResult> updateItem(int id, AttivitaOP item, ArubaDB db)
+        private static async Task<Results<NoContent, NotFound<string>>> updateItem(int id, AttivitaOP item, ArubaDB db)
         {
             var tempItem = await db.Attivita.FindAsync(id);
 
@@ -68,7 +69,7 @@ namespace Traccia1.API
             return TypedResults.NoContent();
         }
 
-        private static async Task<IResult> deleteItem(int id, ArubaDB db)
+        private static async Task<Results<NoContent, NotFound<string>>> deleteItem(int id, ArubaDB db)
         {
             if (await db.Attivita.FindAsync(id) is Attivita item)
             {
@@ -77,7 +78,7 @@ namespace Traccia1.API
                 return TypedResults.NoContent();
             }
 
-            return TypedResults.NotFound();
+            return TypedResults.NotFound($"Item con id {id} non trovato");
         }
 
     }

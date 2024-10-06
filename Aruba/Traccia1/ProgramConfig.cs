@@ -8,7 +8,7 @@ namespace Traccia1
     public static class ProgramConfig
     {
 
-        public static void setMiddlewareSwagger(WebApplication app) {
+        public static void setMiddlewareSwagger(this WebApplication app) {
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {

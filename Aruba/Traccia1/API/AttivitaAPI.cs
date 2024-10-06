@@ -6,7 +6,7 @@ namespace Traccia1.API
 {
     public static class AttivitaAPI
     {
-        public static void setAttivitaAPI(WebApplication app)
+        public static void setAttivitaAPI(this WebApplication app)
         {
             app.MapGet("/attivitaitems", async (ArubaDB db) =>
                 Results.Ok(await db.Attivita.ToListAsync()))
