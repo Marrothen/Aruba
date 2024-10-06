@@ -52,7 +52,7 @@ namespace Traccia4
 
                 consumer.StoreOffset(cr);
 
-                if (cr.Offset % 10 == 0)
+                if (cr.Offset % 2 == 0)
                 {
                     consumer.Commit();
                     Console.WriteLine($"Commit effettuato fino all'offset: {cr.Offset}.");
