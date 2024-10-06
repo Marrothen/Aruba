@@ -12,19 +12,20 @@ namespace Traccia4
     {
         private readonly ProducerConfig _config;
         private readonly string _topic="ArubaTopic";
-
+        private readonly IProducer<Null, string> producer;
 
         public KafkaProducer(string bootstrapServers)
         {
             _config = new ProducerConfig { BootstrapServers = bootstrapServers };
+            producer= new ProducerBuilder<Null, string>(_config).Build();
         }
 
         public async Task ProduceAsync( string message)
         {
-            using var producer = new ProducerBuilder<Null, string>(_config).Build();
             await producer.ProduceAsync(_topic, new Message<Null, string> { Value = message });
 
         }
+
 
     }
 }

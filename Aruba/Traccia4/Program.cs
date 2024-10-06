@@ -11,9 +11,9 @@ Console.WriteLine("-------------------");
 
 KafkaProducer _kafkaProducer = new KafkaProducer(_bootstrapServers);
 KafkaConsumer _kafkaConsumer = new KafkaConsumer();
-var cancellationTokenSource = new CancellationToken();
-
-_kafkaConsumer.StartBackgroundService(cancellationTokenSource);
+CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+CancellationToken cancellationToken = cancellationTokenSource.Token;
+_kafkaConsumer.StartBackgroundService(cancellationToken);
 while (true)
 {
     Console.WriteLine("\nSeleziona un'opzione:");
@@ -32,8 +32,8 @@ while (true)
 
         case "2":
             Console.WriteLine("Uscita...");
-            return;
-
+            cancellationTokenSource.Cancel();
+            break;
         default:
             Console.WriteLine("Scelta non valida, riprova.");
             break;
